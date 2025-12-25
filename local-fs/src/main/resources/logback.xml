@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <appender name="PROJECT" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <Key>app.mainModule</Key>
+            <DefaultValue>reakh_mcp_localfs</DefaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE-${app.mainModule}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <!-- reference:https://stackoverflow.com/questions/40141053/how-to-configure-spring-boot-logback-rollingfileappender-and-have-actuator-logfi-->
+                <File>logs/clougence_rdp/${app.mainModule}.log</File>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <!-- rollover daily -->
+                    <fileNamePattern>logs/reakh_mcp_localfs/%d{yyyy-MM-dd}/${app.mainModule}-%d{yyyy-MM-dd}-%i.log.gz
+                    </fileNamePattern>
+                    <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                        <maxFileSize>512MB</maxFileSize>
+                    </timeBasedFileNamingAndTriggeringPolicy>
+                    <maxHistory>30</maxHistory>
+                </rollingPolicy>
+                <encoder>
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{56} - %msg%n</pattern>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="PROJECT"/>
+    </root>
+</configuration>
