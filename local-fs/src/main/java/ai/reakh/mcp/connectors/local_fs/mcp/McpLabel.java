@@ -13,4 +13,16 @@ public interface McpLabel {
     String MAX_DEPTH                        = "MAX_DEPTH";
 
     String FILE_PATH                        = "FILE_PATH";
+
+    String GREP                             = "GREP";
+
+    String GREP_TARGET_FILE_OR_DIR          = "GREP_TARGET_FILE_OR_DIR";
+
+    String GREP_IS_DIRECTORY                = "GREP_IS_DIRECTORY";
+
+    String GREP_REGEX                       = "GREP_REGEX";
+
+    String GREP_INCLUDE                     = "GREP_INCLUDE";
+
+    String GREP_EXCLUDE                     = "GREP_EXCLUDE";
 }

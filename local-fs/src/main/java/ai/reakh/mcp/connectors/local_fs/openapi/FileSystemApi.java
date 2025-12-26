@@ -19,6 +19,7 @@ import ai.reakh.mcp.connectors.local_fs.WebConfigurer;
 import ai.reakh.mcp.connectors.local_fs.commons.ResApiData;
 import ai.reakh.mcp.connectors.local_fs.commons.ResApiDataUtils;
 import ai.reakh.mcp.connectors.local_fs.mcp.McpLabel;
+import ai.reakh.mcp.connectors.local_fs.model.fo.GrepFO;
 import ai.reakh.mcp.connectors.local_fs.model.fo.ListCurrDirFilesAndSubDirsFO;
 import ai.reakh.mcp.connectors.local_fs.model.fo.ReadFileToTextFO;
 import ai.reakh.mcp.connectors.local_fs.model.vo.FileOrDirMetaVO;
@@ -56,6 +57,16 @@ public class FileSystemApi {
         log.info("listCurrDirFilesAndSubDirs for open api request id :" + requestId);
 
         List<FileOrDirMetaVO> re = localFileService.listFileMetas(fo.getDirPath(), fo.getMaxDepth());
+        return ResApiDataUtils.buildSuccess(re);
+    }
+
+    @McpTool(value = McpLabel.GREP)
+    @RequestMapping(value = "/grep", method = RequestMethod.POST)
+    public ResApiData<?> grep(@RequestBody @Valid GrepFO fo, HttpServletRequest request) {
+        String requestId = (String) request.getAttribute(OpenApiSessionManager.OPEN_API_REQUEST_ID);
+        log.info("Grep for open api request id :" + requestId);
+
+        List<String> re = localFileService.grep(fo.getTargetFileOrDir(), fo.isDirectory(), fo.getRegex(), fo.getInclude(), fo.getExclude());
         return ResApiDataUtils.buildSuccess(re);
     }
 
