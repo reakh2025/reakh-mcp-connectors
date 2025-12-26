@@ -91,7 +91,7 @@ public class FileSystemApi {
         String requestId = (String) request.getAttribute(OpenApiSessionManager.OPEN_API_REQUEST_ID);
         log.info("readFileToText for open api request id :" + requestId);
 
-        localFileService.createFile(fo.getTargetFile());
+        localFileService.createFile(fo.getTargetFile(), fo.isDirectory());
         return ResApiDataUtils.buildSuccess();
     }
 

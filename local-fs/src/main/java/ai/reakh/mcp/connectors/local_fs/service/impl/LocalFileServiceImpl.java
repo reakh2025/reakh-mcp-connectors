@@ -94,7 +94,7 @@ public class LocalFileServiceImpl implements LocalFileService {
     }
 
     @Override
-    public void createFile(String targetFile) {
+    public void createFile(String targetFile, boolean isDirectory) {
         Path filePath = Paths.get(targetFile);
 
         if (Files.exists(filePath)) {
@@ -103,16 +103,20 @@ public class LocalFileServiceImpl implements LocalFileService {
 
         Path parentDir = filePath.getParent();
 
-        if (parentDir == null || !Files.exists(parentDir)) {
+        if (parentDir == null) {
             throw new IllegalArgumentException("Parent directory is not exist: " + (parentDir != null ? parentDir.toString() : "无父目录"));
         }
 
-        if (!Files.isDirectory(parentDir)) {
-            throw new IllegalArgumentException("Parent directory is not a directory: " + parentDir.toString());
-        }
-
         try {
-            Files.createFile(filePath);
+            if (!Files.exists(parentDir)) {
+                Files.createDirectories(parentDir);
+            }
+
+            if (isDirectory) {
+                Files.createDirectory(filePath);
+            } else {
+                Files.createFile(filePath);
+            }
 
             log.info("File {} success created.", targetFile);
         } catch (Exception e) {

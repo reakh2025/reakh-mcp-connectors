@@ -10,7 +10,7 @@ public interface LocalFileService {
 
     List<String> grep(String targetFileOrDir, boolean isDirectory, String regex, String include, String exclude);
 
-    void createFile(String targetFile);
+    void createFile(String targetFile, boolean isDirectory);
 
     void writeFile(String targetFile, String content, boolean append);
 }

@@ -30,6 +30,8 @@ public interface McpLabel {
 
     String CREATE_FILE_TARGET_FILE          = "CREATE_FILE_TARGET_FILE";
 
+    String CREATE_FILE_IS_DIRECTORY         = "CREATE_FILE_IS_DIRECTORY";
+
     String WRITE_FILE                       = "WRITE_FILE";
 
     String WRITE_FILE_TARGET_FILE           = "WRITE_FILE_TARGET_FILE";

@@ -13,5 +13,8 @@ public class CreateFileFO {
 
     @NotBlank
     @McpField(value = McpLabel.CREATE_FILE_TARGET_FILE)
-    private String targetFile;
+    private String  targetFile;
+
+    @McpField(value = McpLabel.CREATE_FILE_IS_DIRECTORY)
+    private boolean isDirectory;
 }
