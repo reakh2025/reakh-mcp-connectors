@@ -9,4 +9,8 @@ public interface LocalFileService {
     List<FileOrDirMetaVO> listFileMetas(String targetDir, Integer maxDepth);
 
     List<String> grep(String targetFileOrDir, boolean isDirectory, String regex, String include, String exclude);
+
+    void createFile(String targetFile);
+
+    void writeFile(String targetFile, String content, boolean append);
 }

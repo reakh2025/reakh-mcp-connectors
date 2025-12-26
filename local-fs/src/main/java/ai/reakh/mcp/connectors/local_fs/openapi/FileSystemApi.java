@@ -19,9 +19,7 @@ import ai.reakh.mcp.connectors.local_fs.WebConfigurer;
 import ai.reakh.mcp.connectors.local_fs.commons.ResApiData;
 import ai.reakh.mcp.connectors.local_fs.commons.ResApiDataUtils;
 import ai.reakh.mcp.connectors.local_fs.mcp.McpLabel;
-import ai.reakh.mcp.connectors.local_fs.model.fo.GrepFO;
-import ai.reakh.mcp.connectors.local_fs.model.fo.ListCurrDirFilesAndSubDirsFO;
-import ai.reakh.mcp.connectors.local_fs.model.fo.ReadFileToTextFO;
+import ai.reakh.mcp.connectors.local_fs.model.fo.*;
 import ai.reakh.mcp.connectors.local_fs.model.vo.FileOrDirMetaVO;
 import ai.reakh.mcp.connectors.local_fs.model.vo.OsInfo;
 import ai.reakh.mcp.connectors.local_fs.service.LocalFileService;
@@ -85,5 +83,25 @@ public class FileSystemApi {
             log.error(msg, e);
             return ResApiDataUtils.buildError(msg);
         }
+    }
+
+    @McpTool(value = McpLabel.CREATE_FILE)
+    @RequestMapping(value = "createFile", method = RequestMethod.POST)
+    public ResApiData<?> createFile(@RequestBody @Valid CreateFileFO fo, HttpServletRequest request) {
+        String requestId = (String) request.getAttribute(OpenApiSessionManager.OPEN_API_REQUEST_ID);
+        log.info("readFileToText for open api request id :" + requestId);
+
+        localFileService.createFile(fo.getTargetFile());
+        return ResApiDataUtils.buildSuccess();
+    }
+
+    @McpTool(value = McpLabel.WRITE_FILE)
+    @RequestMapping(value = "/writeFile", method = RequestMethod.POST)
+    public ResApiData<?> writeFile(@RequestBody @Valid WriteFileFO fo, HttpServletRequest request) {
+        String requestId = (String) request.getAttribute(OpenApiSessionManager.OPEN_API_REQUEST_ID);
+        log.info("writeFile for open api request id :" + requestId);
+
+        localFileService.writeFile(fo.getTargetFile(), fo.getContent(), fo.isAppend());
+        return ResApiDataUtils.buildSuccess();
     }
 }

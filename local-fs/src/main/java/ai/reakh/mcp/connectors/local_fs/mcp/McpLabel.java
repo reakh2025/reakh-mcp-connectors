@@ -25,4 +25,16 @@ public interface McpLabel {
     String GREP_INCLUDE                     = "GREP_INCLUDE";
 
     String GREP_EXCLUDE                     = "GREP_EXCLUDE";
+
+    String CREATE_FILE                      = "CREATE_FILE";
+
+    String CREATE_FILE_TARGET_FILE          = "CREATE_FILE_TARGET_FILE";
+
+    String WRITE_FILE                       = "WRITE_FILE";
+
+    String WRITE_FILE_TARGET_FILE           = "WRITE_FILE_TARGET_FILE";
+
+    String WRITE_FILE_CONTENT               = "WRITE_FILE_CONTENT";
+
+    String WRITE_FILE_APPEND                = "WRITE_FILE_APPEND";
 }

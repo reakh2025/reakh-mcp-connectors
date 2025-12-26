@@ -4,9 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -89,6 +88,70 @@ public class LocalFileServiceImpl implements LocalFileService {
             return re;
         } catch (Exception e) {
             String msg = "Grep failed.msg:" + ExceptionUtils.getRootCauseMessage(e);
+            log.error(msg, e);
+            throw new RuntimeException(msg, e);
+        }
+    }
+
+    @Override
+    public void createFile(String targetFile) {
+        Path filePath = Paths.get(targetFile);
+
+        if (Files.exists(filePath)) {
+            throw new IllegalArgumentException("File " + targetFile + " is exist, can not create it.");
+        }
+
+        Path parentDir = filePath.getParent();
+
+        if (parentDir == null || !Files.exists(parentDir)) {
+            throw new IllegalArgumentException("Parent directory is not exist: " + (parentDir != null ? parentDir.toString() : "无父目录"));
+        }
+
+        if (!Files.isDirectory(parentDir)) {
+            throw new IllegalArgumentException("Parent directory is not a directory: " + parentDir.toString());
+        }
+
+        try {
+            Files.createFile(filePath);
+
+            log.info("File {} success created.", targetFile);
+        } catch (Exception e) {
+            String msg = "Create file " + targetFile + " failed,msg:" + ExceptionUtils.getRootCauseMessage(e);
+            throw new RuntimeException(msg, e);
+        }
+    }
+
+    @Override
+    public void writeFile(String targetFile, String content, boolean append) {
+        Path filePath = Paths.get(targetFile);
+
+        if (Files.exists(filePath)) {
+            throw new IllegalArgumentException("File " + targetFile + " is exist, can not write it.");
+        }
+
+        if (!Files.isRegularFile(filePath)) {
+            throw new IllegalArgumentException("File is not a regular file: " + targetFile);
+        }
+
+        if (!Files.isWritable(filePath)) {
+            throw new IllegalArgumentException("File is not writable,please check the privileges: " + targetFile);
+        }
+
+        try {
+            byte[] bContent = (content != null ? content : "").getBytes(StandardCharsets.UTF_8);
+            if (append) {
+                Files.write(filePath, bContent, StandardOpenOption.APPEND);
+                log.info("Success append to file: {}, content length: {}", targetFile, (content != null ? content.length() : 0));
+            } else {
+                Files.write(filePath, bContent, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+                log.info("Success to overwrite: {}, content length: {}", targetFile, (content != null ? content.length() : 0));
+            }
+        } catch (AccessDeniedException e) {
+            String msg = "Access denied, maybe have no rights to writeWrite content to file " + targetFile + " failed,msg:" + ExceptionUtils.getRootCauseMessage(e);
+            log.error(msg, e);
+            throw new RuntimeException(msg, e);
+        } catch (Exception e) {
+            String msg = "Write content to file " + targetFile + " failed,msg:" + ExceptionUtils.getRootCauseMessage(e);
             log.error(msg, e);
             throw new RuntimeException(msg, e);
         }
