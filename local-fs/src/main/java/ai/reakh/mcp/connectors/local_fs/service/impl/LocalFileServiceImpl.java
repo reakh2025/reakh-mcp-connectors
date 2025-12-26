@@ -118,7 +118,7 @@ public class LocalFileServiceImpl implements LocalFileService {
         Path filePath = Paths.get(targetDir);
 
         if (Files.exists(filePath)) {
-            throw new IllegalArgumentException("Directory " + targetDir + " is exist, can not create it.");
+            return;
         }
 
         checkParentDirOrCreate(filePath);
