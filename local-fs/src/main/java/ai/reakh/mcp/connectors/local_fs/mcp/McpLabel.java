@@ -10,5 +10,7 @@ public interface McpLabel {
 
     String DIR_PATH                         = "DIR_PATH";
 
+    String MAX_DEPTH                        = "MAX_DEPTH";
+
     String FILE_PATH                        = "FILE_PATH";
 }

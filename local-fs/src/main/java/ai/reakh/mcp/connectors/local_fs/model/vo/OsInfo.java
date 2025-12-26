@@ -10,17 +10,19 @@ import lombok.Setter;
 @Setter
 public class OsInfo {
 
-    private String osName;
+    private String  osName;
 
-    private String osArch;
+    private String  osArch;
 
-    private String osVersion;
+    private String  osVersion;
 
-    private String fileSeparator;
+    private String  fileSeparator;
 
-    private String pathSeparator;
+    private String  pathSeparator;
 
-    private String lineSeparator;
+    private String  lineSeparator;
+
+    private Integer listFileOrDirsMaxDepth;
 
     public void convertFromSysProp() {
         this.osName = System.getProperty("os.name");
@@ -29,5 +31,6 @@ public class OsInfo {
         this.fileSeparator = FileSystems.getDefault().getSeparator();
         this.pathSeparator = File.pathSeparator;
         this.lineSeparator = System.lineSeparator();
+        this.listFileOrDirsMaxDepth = 3;
     }
 }

@@ -13,5 +13,8 @@ public class ListCurrDirFilesAndSubDirsFO {
 
     @NotBlank()
     @McpField(value = McpLabel.DIR_PATH)
-    private String dirPath;
+    private String  dirPath;
+
+    @McpField(value = McpLabel.MAX_DEPTH)
+    private Integer maxDepth;
 }
