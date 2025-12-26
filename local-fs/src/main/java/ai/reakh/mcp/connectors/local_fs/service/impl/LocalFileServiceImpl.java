@@ -94,33 +94,58 @@ public class LocalFileServiceImpl implements LocalFileService {
     }
 
     @Override
-    public void createFile(String targetFile, boolean isDirectory) {
+    public void createFile(String targetFile) {
         Path filePath = Paths.get(targetFile);
 
         if (Files.exists(filePath)) {
             throw new IllegalArgumentException("File " + targetFile + " is exist, can not create it.");
         }
 
+        checkParentDirOrCreate(filePath);
+
+        try {
+            Files.createFile(filePath);
+
+            log.info("File {} success created.", targetFile);
+        } catch (Exception e) {
+            String msg = "Create file " + targetFile + " failed,msg:" + ExceptionUtils.getRootCauseMessage(e);
+            throw new RuntimeException(msg, e);
+        }
+    }
+
+    @Override
+    public void createDirectory(String targetDir) {
+        Path filePath = Paths.get(targetDir);
+
+        if (Files.exists(filePath)) {
+            throw new IllegalArgumentException("Directory " + targetDir + " is exist, can not create it.");
+        }
+
+        checkParentDirOrCreate(filePath);
+
+        try {
+            Files.createFile(filePath);
+
+            log.info("Directory {} success created.", filePath);
+        } catch (Exception e) {
+            String msg = "Create directory " + filePath + " failed,msg:" + ExceptionUtils.getRootCauseMessage(e);
+            throw new RuntimeException(msg, e);
+        }
+    }
+
+    protected void checkParentDirOrCreate(Path filePath) {
         Path parentDir = filePath.getParent();
 
         if (parentDir == null) {
-            throw new IllegalArgumentException("Parent directory is not exist: " + (parentDir != null ? parentDir.toString() : "无父目录"));
+            throw new IllegalArgumentException("Parent directory is not exist.");
         }
 
         try {
             if (!Files.exists(parentDir)) {
                 Files.createDirectories(parentDir);
             }
-
-            if (isDirectory) {
-                Files.createDirectory(filePath);
-            } else {
-                Files.createFile(filePath);
-            }
-
-            log.info("File {} success created.", targetFile);
         } catch (Exception e) {
-            String msg = "Create file " + targetFile + " failed,msg:" + ExceptionUtils.getRootCauseMessage(e);
+            String msg = "Create parent directory failed,msg:" + ExceptionUtils.getRootCauseMessage(e);
             throw new RuntimeException(msg, e);
         }
     }

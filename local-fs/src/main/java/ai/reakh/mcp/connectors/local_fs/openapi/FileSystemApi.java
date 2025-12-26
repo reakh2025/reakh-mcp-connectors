@@ -85,13 +85,23 @@ public class FileSystemApi {
         }
     }
 
+    @McpTool(value = McpLabel.CREATE_DIR)
+    @RequestMapping(value = "createDir", method = RequestMethod.POST)
+    public ResApiData<?> createDir(@RequestBody @Valid CreateDirFO fo, HttpServletRequest request) {
+        String requestId = (String) request.getAttribute(OpenApiSessionManager.OPEN_API_REQUEST_ID);
+        log.info("createDir for open api request id :" + requestId);
+
+        localFileService.createDirectory(fo.getTargetDir());
+        return ResApiDataUtils.buildSuccess();
+    }
+
     @McpTool(value = McpLabel.CREATE_FILE)
     @RequestMapping(value = "createFile", method = RequestMethod.POST)
     public ResApiData<?> createFile(@RequestBody @Valid CreateFileFO fo, HttpServletRequest request) {
         String requestId = (String) request.getAttribute(OpenApiSessionManager.OPEN_API_REQUEST_ID);
-        log.info("readFileToText for open api request id :" + requestId);
+        log.info("createFile for open api request id :" + requestId);
 
-        localFileService.createFile(fo.getTargetFile(), fo.isDirectory());
+        localFileService.createFile(fo.getTargetFile());
         return ResApiDataUtils.buildSuccess();
     }
 

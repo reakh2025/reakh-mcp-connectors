@@ -26,11 +26,13 @@ public interface McpLabel {
 
     String GREP_EXCLUDE                     = "GREP_EXCLUDE";
 
+    String CREATE_DIR                      = "CREATE_DIR";
+
+    String CREATE_FILE_TARGET_DIR          = "CREATE_FILE_TARGET_DIR";
+
     String CREATE_FILE                      = "CREATE_FILE";
 
     String CREATE_FILE_TARGET_FILE          = "CREATE_FILE_TARGET_FILE";
-
-    String CREATE_FILE_IS_DIRECTORY         = "CREATE_FILE_IS_DIRECTORY";
 
     String WRITE_FILE                       = "WRITE_FILE";
 
