@@ -124,7 +124,7 @@ public class LocalFileServiceImpl implements LocalFileService {
         checkParentDirOrCreate(filePath);
 
         try {
-            Files.createFile(filePath);
+            Files.createDirectory(filePath);
 
             log.info("Directory {} success created.", filePath);
         } catch (Exception e) {
