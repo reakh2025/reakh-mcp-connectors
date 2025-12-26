@@ -1,4 +1,4 @@
-package ai.reakh.mcp.connectors.local_fs.commons;
+package ai.reakh.mcp.commons;
 
 public class ResApiDataUtils {
 

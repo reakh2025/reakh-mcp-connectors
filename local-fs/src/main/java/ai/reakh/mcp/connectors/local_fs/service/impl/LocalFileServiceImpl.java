@@ -154,8 +154,8 @@ public class LocalFileServiceImpl implements LocalFileService {
     public void writeFile(String targetFile, String content, boolean append) {
         Path filePath = Paths.get(targetFile);
 
-        if (Files.exists(filePath)) {
-            throw new IllegalArgumentException("File " + targetFile + " is exist, can not write it.");
+        if (!Files.exists(filePath)) {
+            throw new IllegalArgumentException("File " + targetFile + " is not exist, can not write it.");
         }
 
         if (!Files.isRegularFile(filePath)) {

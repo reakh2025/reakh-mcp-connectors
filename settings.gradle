@@ -8,4 +8,5 @@
  */
 
 rootProject.name = 'reakh-mcp-connectors'
+include('mcp-commons')
 include('local-fs')
