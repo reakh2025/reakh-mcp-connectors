@@ -29,6 +29,9 @@ public class LocalFsConfig {
         return new LocalFsUserService();
     }
 
+    @Value("${server.port}")
+    private String appPort;
+
     @Value("${ai.reakh.mcp.connectors.local_fs.accessKey}")
     private String accessKey;
 
