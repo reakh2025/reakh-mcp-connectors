@@ -1,9 +1,8 @@
 package ai.reakh.mcp.connectors.local_fs.model.fo;
 
-import javax.validation.constraints.NotBlank;
-
 import ai.reakh.mcp.connectors.local_fs.mcp.McpLabel;
 import ai.reakh.mcp.sdk.annotation.McpField;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 

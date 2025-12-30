@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
 import org.springframework.context.MessageSource;
 
 import ai.reakh.mcp.connectors.local_fs.WebConfigurer;
@@ -15,6 +12,8 @@ import ai.reakh.mcp.sdk.UserInfo;
 import ai.reakh.mcp.sdk.UserMcpSdk;
 import ai.reakh.mcp.sdk.mcp.McpI18nProxy;
 import ai.reakh.mcp.sdk.openapi.OpenApiSigner;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -3,9 +3,29 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version '2.7.18'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '3.4.13'
+    id 'io.spring.dependency-management' version '1.1.7'
     id 'reakh.mcp.connectors'
+    id 'application'
+    id 'org.graalvm.buildtools.native' version '0.10.2'
+}
+
+application {
+    mainClass = 'ai.reakh.mcp.connectors.local_fs.LocalFsMcpServerLauncher'
+}
+
+graalvmNative {
+    binaries {
+        main {
+            imageName = 'local-fs-mcp' // 生成的可执行文件名
+            buildArgs.add('--verbose')
+            // resources.autodetect()
+        }
+    }
+    metadataRepository {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -15,11 +35,11 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation 'ch.qos.logback:logback-classic'
 
     implementation "com.squareup.okhttp3:okhttp:4.12.0"
-    implementation "com.fasterxml.jackson.core:jackson-databind:${JACKSON_VERSION}"
     implementation "com.fasterxml.uuid:java-uuid-generator:4.0"
-    implementation "javax.xml.bind:jaxb-api:2.3.1"
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.4"
     implementation "com.google.code.gson:gson:2.10.1"
 
     implementation "org.apache.commons:commons-lang3:3.18.0"
