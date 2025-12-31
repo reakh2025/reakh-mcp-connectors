@@ -8,24 +8,10 @@ plugins {
     id 'reakh.mcp.connectors'
     id 'org.springframework.boot' version '3.4.13'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.graalvm.buildtools.native' version '0.10.2'
 }
 
 application {
     mainClass = 'ai.reakh.mcp.connectors.local_fs.LocalFsMcpServerLauncher'
-}
-
-graalvmNative {
-    binaries {
-        main {
-            imageName = 'local-fs-mcp' // 生成的可执行文件名
-            buildArgs.add('--verbose')
-            // resources.autodetect()
-        }
-    }
-    metadataRepository {
-        enabled = true
-    }
 }
 
 dependencies {
