@@ -32,7 +32,7 @@ public class McpToolsController {
         helper.initTools();
     }
 
-    @RequestMapping(value = "/localfs", method = { RequestMethod.POST, RequestMethod.GET })
+    @RequestMapping(method = { RequestMethod.POST, RequestMethod.GET })
     public McpProtocolBase handle(@RequestBody @Valid McpRequest req, HttpServletRequest request) {
         return helper.handleRequest(req, request);
     }
