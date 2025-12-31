@@ -3,7 +3,6 @@
  */
 
 plugins {
-    id 'java-library'
     id 'maven-publish'
 }
 
@@ -16,17 +15,6 @@ repositories {
 Properties globalConfig = new Properties()
 try (FileInputStream fis = new FileInputStream(new File(rootDir, "gradle.properties"))) {
     globalConfig.load(fis)
-}
-
-dependencies {
-    implementation "org.projectlombok:lombok:1.18.30"
-
-    annotationProcessor "org.projectlombok:lombok:1.18.30"
-    testAnnotationProcessor "org.projectlombok:lombok:1.18.30"
-
-    // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
-    testCompileOnly 'org.projectlombok:lombok:1.18.30'
 }
 
 group = 'ai.reakh.mcp'

@@ -4,10 +4,10 @@
 
 plugins {
     id 'java'
+    id 'application'
+    id 'reakh.mcp.connectors'
     id 'org.springframework.boot' version '3.4.13'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'reakh.mcp.connectors'
-    id 'application'
     id 'org.graalvm.buildtools.native' version '0.10.2'
 }
 
@@ -29,10 +29,9 @@ graalvmNative {
 }
 
 dependencies {
-    api(project(":mcp-commons"))
+    implementation project(":mcp-commons")
 
     implementation "ai.reakh.mcp:server-sdk:0.0.1-SNAPSHOT"
-
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation 'ch.qos.logback:logback-classic'
@@ -44,6 +43,12 @@ dependencies {
 
     implementation "org.apache.commons:commons-lang3:3.18.0"
     implementation "commons-io:commons-io:2.15.1"
+
+    implementation "org.projectlombok:lombok:1.18.30"
+    annotationProcessor "org.projectlombok:lombok:1.18.30"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.30"
+    testCompileOnly "org.projectlombok:lombok:1.18.30"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.7.2"
 }
 
 compileJava {

@@ -25,8 +25,10 @@ public class LocalFsConfig {
     }
 
     @Bean
-    public UserMcpSdk userMcpSdk() {
-        return new LocalFsUserService();
+    public UserMcpSdk userMcpSdk(LocalFsConfig localFsConfig, MessageSource messageSource) {
+        LocalFsUserService s = new LocalFsUserService(localFsConfig, messageSource);
+        s.printMcpUrl();
+        return s;
     }
 
     @Value("${server.port}")

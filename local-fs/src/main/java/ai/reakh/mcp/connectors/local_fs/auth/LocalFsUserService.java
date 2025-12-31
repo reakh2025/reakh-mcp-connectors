@@ -13,37 +13,38 @@ import ai.reakh.mcp.sdk.UserMcpSdk;
 import ai.reakh.mcp.sdk.mcp.McpI18nProxy;
 import ai.reakh.mcp.sdk.openapi.OpenApiSigner;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class LocalFsUserService implements UserMcpSdk {
 
-    @Resource
-    private LocalFsConfig config;
+    private final LocalFsConfig localFsConfig;
 
-    @Resource
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
 
-    @PostConstruct
+    public LocalFsUserService(LocalFsConfig localFsConfig, MessageSource messageSource){
+        this.localFsConfig = localFsConfig;
+        this.messageSource = messageSource;
+    }
+
     public void printMcpUrl() {
         String nonce = "" + System.currentTimeMillis();
         Map<String, String> paramToSign = new HashMap<>();
         paramToSign.put("SignatureMethod", "HmacSHA1");
         paramToSign.put("SignatureNonce", nonce);
-        paramToSign.put("AccessKeyId", config.getAccessKey());
+        paramToSign.put("AccessKeyId", localFsConfig.getAccessKey());
         String str = OpenApiSigner.composeStringToSign(paramToSign);
-        String re = OpenApiSigner.signString(str, config.getSecretKey());
+        String re = OpenApiSigner.signString(str, localFsConfig.getSecretKey());
 
-        String mcpURL = "http://127.0.0.1:" + config.getAppPort() + WebConfigurer.MCP_URI + "?AccessKeyId=" + paramToSign.get("AccessKeyId") + "&Signature=" + URLEncoder.encode(re)
-                        + "&SignatureMethod=HmacSHA1&SignatureNonce=" + nonce;
+        String mcpURL = "http://127.0.0.1:" + localFsConfig.getAppPort() + WebConfigurer.MCP_URI + "?AccessKeyId=" + paramToSign.get("AccessKeyId") + "&Signature="
+                        + URLEncoder.encode(re) + "&SignatureMethod=HmacSHA1&SignatureNonce=" + nonce;
 
         log.info("[MCP SERVICE]:" + mcpURL);
     }
 
     @Override
     public UserInfo fetchByAccessKey(String accessKey) {
-        if (config.getAccessKey() == null || config.getSecretKey() == null) {
+        if (localFsConfig.getAccessKey() == null || localFsConfig.getSecretKey() == null) {
             throw new IllegalArgumentException("Need to set a pair of accessKey and secretKye in system.");
         }
 
@@ -51,12 +52,12 @@ public class LocalFsUserService implements UserMcpSdk {
             return null;
         }
 
-        if (!config.getAccessKey().equals(accessKey)) {
+        if (!localFsConfig.getAccessKey().equals(accessKey)) {
             return null;
         }
 
         UserInfo i = new UserInfo();
-        i.setSecretKey(config.getSecretKey());
+        i.setSecretKey(localFsConfig.getSecretKey());
         return i;
     }
 
